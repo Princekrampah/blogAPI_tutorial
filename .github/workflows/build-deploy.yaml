@@ -21,4 +21,19 @@ jobs:
       - name: Install all dependencies
         run: pip install -r requirements.txt
 
+  heroku-deployment:
+    runs-on: ubuntu-latest
+    needs: [build]
 
+    environment:
+      name: heroku_production
+
+    stesp:
+      - name: Get actions
+        uses: actions/checkout@v3
+      - name: Deploying to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.APP_NAME}} 
+          heroku_email: ${{secrets.MY_EMAIL}}
